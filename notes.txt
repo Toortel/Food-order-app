@@ -1,0 +1,7 @@
+-> Cart: (cart components)
+
+-> Layout: Header
+
+-> Meals: MealItem, MealsList
+
+-> UI: Input (quantity), Card (container around meals), Modal
