@@ -1,0 +1,26 @@
+.meal-item {
+    background-color: white;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.343);
+    border-radius: 10px;
+    width: 80%;
+    padding: 0.5rem 2rem;
+    margin: 2rem auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.meal-item-title {
+    margin: 0.75rem 0;
+}
+
+.meal-item-description {
+    margin: 0.5rem 0;
+    font-style: italic;
+}
+
+.meal-item-price {
+    margin: 0.5rem 0;
+    font-weight: bold;
+    color: #ad5502;
+    font-size: 1.25rem;
+}
