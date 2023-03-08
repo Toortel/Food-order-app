@@ -4,7 +4,7 @@ import classes from "./Header.module.css";
 const Header = () => {
   return (
     <header className={classes["header-main"]}>
-        <h1 className={classes["header-title"]}>JSX-Meals</h1>
+        <h1 className={classes["header-title"]}>JSX-Meal</h1>
         <div className={classes["header-cart"]}>(cart component here)</div>
     </header>
   );
