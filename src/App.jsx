@@ -16,7 +16,11 @@ function App() {
     setIsVisible(false);
   };
 
-  
+  const addItemToCartHandler = (item) => {
+    
+  };
+
+  const removeItemFromCartHandler = (id) => {};
 
   return (
     <CartContext.Provider
@@ -24,6 +28,10 @@ function App() {
         isVisible: isVisible,
         onClose: closeCartHandler,
         onShow: showCartHandler,
+        addItem: addItemToCartHandler,
+        removeItem: removeItemFromCartHandler,
+        totalAmount: 0,
+        items: [],
       }}
     >
       <Header />
