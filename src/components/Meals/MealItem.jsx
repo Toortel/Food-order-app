@@ -13,7 +13,6 @@ const MealItem = (props) => {
       amount: amount,
       price: props.price,
     });
-    console.log(amount);
   };
 
   return (
