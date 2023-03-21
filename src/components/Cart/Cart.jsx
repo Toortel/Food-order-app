@@ -8,6 +8,8 @@ import Checkout from "./Checkout";
 
 const Cart = () => {
   const [showForm, setShowForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
 
   const ctx = useContext(CartContext);
   const cartItemAddHandler = (item) => {
@@ -41,14 +43,41 @@ const Cart = () => {
     setShowForm(true);
   };
 
-  return (
-    <Modal>
+  const submitOrderHandler = async (userData) => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(
+        "https://http-requests-68c70-default-rtdb.europe-west1.firebasedatabase.app/orders.json",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            user: userData,
+            order: ctx.items,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Submitting data failed, try again later!");
+      }
+
+      setIsSubmitting(false);
+      setDidSubmit(true);
+      ctx.items.length = 0;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const cartModalContent = (
+    <React.Fragment>
       {cartItems}
       <div className={classes.total}>
         <span>Total amount</span>
         <span>{"$" + ctx.totalAmount.toFixed(2)}</span>
       </div>
-      {showForm && <Checkout hideForm={hideOrderHandler} />}
+      {showForm && (
+        <Checkout hideForm={hideOrderHandler} onCheckout={submitOrderHandler} />
+      )}
       {!showForm && (
         <div className={classes.actions}>
           <button className={classes["button--alt"]} onClick={ctx.onClose}>
@@ -61,6 +90,17 @@ const Cart = () => {
           )}
         </div>
       )}
+    </React.Fragment>
+  );
+
+  const isSubmittingModalContent = <p>Sending your order data...</p>;
+  const didSubmitModalContent = <p>Succesfully sent the order!</p>;
+
+  return (
+    <Modal>
+      {!isSubmitting && !didSubmit && cartModalContent}
+      {isSubmitting && isSubmittingModalContent}
+      {didSubmit && didSubmitModalContent}
     </Modal>
   );
 };

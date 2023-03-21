@@ -38,6 +38,14 @@ const Checkout = (props) => {
       });
       return;
     }
+    props.onCheckout({
+      name: nameInput.current.value,
+      address: {
+        street: streetInput.current.value,
+        postal: postalInput.current.value,
+        city: cityInput.current.value,
+      },
+    });
   };
 
   return (
