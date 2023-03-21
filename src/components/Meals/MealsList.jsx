@@ -1,54 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import MealItem from "./MealItem";
 import classes from "./MealsList.module.css";
 import MealsSummary from "./MealsSummary";
 
-const DUMMY_MEALS = [
-  {
-    id: "m1",
-    name: "Sushi",
-    description: "Finest fish and veggies",
-    price: 22.99,
-  },
-  {
-    id: "m2",
-    name: "Schnitzel",
-    description: "A german specialty!",
-    price: 16.5,
-  },
-  {
-    id: "m3",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-    price: 12.99,
-  },
-  {
-    id: "m4",
-    name: "Green Bowl",
-    description: "Healthy...and green...",
-    price: 18.99,
-  },
-];
-
 const MealsList = () => {
+  const [meals, setMeals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMeals = async () => {
+      const response = await fetch(
+        "https://http-requests-68c70-default-rtdb.europe-west1.firebasedatabase.app/meals.json"
+      );
+      const data = await response.json();
+      console.log(data);
+      const fetchedMeals = [];
+
+      for (const key in data) {
+        fetchedMeals.push({
+          id: key,
+          name: data[key].name,
+          description: data[key].description,
+          price: data[key].price,
+        });
+      }
+      if (fetchedMeals.length > 0) {
+        setIsLoading(false);
+      }
+      setMeals(fetchedMeals);
+    };
+    fetchMeals();
+  }, []);
+
   return (
     <React.Fragment>
       <MealsSummary />
       <section className={classes.meals}>
-        <ul>
-          {DUMMY_MEALS.map((meal) => {
-            return (
-              <MealItem
-                name={meal.name}
-                description={meal.description}
-                price={meal.price}
-                id={meal.id}
-                key={meal.id}
-              />
-            );
-          })}
-        </ul>
+        {!isLoading ? <ul>
+            {meals.map((meal) => {
+              return (
+                <MealItem
+                  name={meal.name}
+                  description={meal.description}
+                  price={meal.price}
+                  id={meal.id}
+                  key={meal.id}
+                />
+              );
+            })}
+        </ul> : <p className={classes["loading-message"]}>Loading...</p>}
+        
       </section>
     </React.Fragment>
   );

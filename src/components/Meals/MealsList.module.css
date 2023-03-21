@@ -10,6 +10,13 @@
     margin: 0;
     padding: 0;
   }
+
+.loading-message {
+    margin: 1rem auto;
+    background-color: white;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+  }
   
   @keyframes meals-appear {
     from {
